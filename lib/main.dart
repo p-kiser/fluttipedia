@@ -132,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Center(
                     child: Image.asset(
-                    'images/skiapoden.png',
+                    'images/skiapoden-trans.png',
                     width: 600,
                     fit: BoxFit.cover,
                     ),
