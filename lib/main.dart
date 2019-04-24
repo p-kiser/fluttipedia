@@ -36,8 +36,52 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  //int _counter = 0; // not used, part of the hello world template
+  int _page = 1;
 
+  static const List<String> _infoTexts = [
+    
+    'Die Spielregeln sind simpel: '
+    'Klicke im Inhaltteil eines beliebigen Wikipedia-Artikels auf den ersten Link,'
+    ' der weder kursiv ist noch in Klammern steht. Wiederhole diesen Vorgang so lange, '
+    'bis du auf der Seite "Philosophie" angelangt bist. Es kann in manchen Fällen jedoch '
+    'vorkommen, dass kein Weg zum Ziel führt, wenn z.B. zwei Artikel aufeinander verweisen '
+    'oder ein Artikel über keine Links verfügt, die den Spielregeln entsprechen.',
+
+    'Doch keine Angst, du musst keinen Internet Explorer auf deinem Handy installieren. '
+    'Fluttipedia verwendet einen nextGen cloudbasierten AI-Microservice, der das Klicken für dich übernimmt. '
+    'Alles was du tun musst, ist zu Raten, wie viele '
+    'Klicks benötigt werden, um auf den Artikel "Philosophie" zu kommen.'
+    ,
+    'Basierend auf hochkomplexen, affektheuristischen Berechnungen vergibt dir Fluttipedia Punkte, je '
+    'nachdem wie gut du geraten hast. Alles klar? Wunderbar!',
+
+  ];
+
+  void _nextInfoPage() {
+    setState(() {
+      
+      if (_page < _infoTexts.length) {
+        _page++;
+        // TODO: next tutorial text
+        debugPrint("Go to page $_page");
+      } else {
+        //TODO: start the game
+        _startGame();
+      }
+    });
+  }
+
+  void _startGame() {
+    setState(() {
+      //  reset tutorial for debugging
+      _page = 1;
+      debugPrint("Start the game");
+      // TODO: Start the game
+    });
+  }
+
+  /* not used - part of the hello world template
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -47,6 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
       debugPrint("Start pressed $_counter times.");
     });
   }
+  */
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center, // vertical alignment
           children: <Widget>[
             Text(
-              'Philosphie-Spiel',
+              "Spielregeln (${_page}/${_infoTexts.length})",
               style: Theme.of(context).textTheme.display1,
             ),
             Container(
@@ -81,48 +126,51 @@ class _MyHomePageState extends State<MyHomePage> {
 
                   Center(
                     child: Text(
-                      'Willkommen zum Spiel "Getting to Philosophie"',
+                      '"Getting to Philosophy"',
                       style: Theme.of(context).textTheme.subtitle
+                    ),
+                  ),
+                  Center(
+                    child: Image.asset(
+                    'images/skiapoden.png',
+                    width: 600,
+                    fit: BoxFit.cover,
                     ),
                   ),
                   Container(
                     padding: const EdgeInsets.all(24),
                     child: Text(
-                      'Die Spielregeln sind simpel:'
-                        ' Klicke im Inhaltteil eines beliebigen Wikipedia-Artikels auf den ersten Link,'
-                        ' der werder kursiv noch in Klammern steht. Wiederhole diesen Vorgang so lange, '
-                        'bis du auf der Seite "Philosophie angelangt bist. Es kann in manchen Fällen jedoch '
-                        'vorkommen, dass kein Weg zum Ziel führt, wenn z.B. zwei Artikel aufeinander verweisen '
-                        'oder ein Artikel über keine Links verfügt, die den Spielregeln entsprechen.',
+                      _infoTexts[_page-1],
                       softWrap: true,
                     ),
                   )
                 ],
               )  
           ),
-            FlatButton(
+            RaisedButton(
               child: new Text(
-                'Start!',
+                'Skip',
                 style: new TextStyle(
                   fontSize:18.0,
-                  color: const Color(0xFFFAFAFA),
+                  //color: const Color(0xFFFAFAFA),
                   fontWeight: FontWeight.w200,
                   fontFamily: "Roboto"
                 ),
               ),
-              color: Colors.deepPurpleAccent,
-              onPressed: _incrementCounter,
+              //color: Colors.deepPurpleAccent,
+              // TODO: Go to start of the game
+              onPressed: _startGame,
+              
             ),
           ],
         ),
       ),
-      /*
+      
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: _nextInfoPage,
+        tooltip: 'next Page',
         child: Icon(Icons.chevron_right),
       ),
-      */ // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
