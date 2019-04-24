@@ -7,7 +7,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Futtipedia',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -18,9 +18,9 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.deepPurple,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Fluttipedia'),
     );
   }
 }
@@ -92,20 +92,66 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'You have pushed the button this many times:',
+              'Philosphie-Spiel',
+              style: Theme.of(context).textTheme.display1,
             ),
+            Container(
+              padding: const EdgeInsets.all(8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+
+                  Center(
+                    child: Text(
+                      'Willkommen zum Spiel "Getting to Philosophie"',
+                      style: Theme.of(context).textTheme.subtitle
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(24),
+                    child: Text(
+                      'Die Spielregeln sind simpel:'
+                        ' Klicke im Inhaltteil eines beliebigen Wikipedia-Artikels auf den ersten Link,'
+                        ' der werder kursiv noch in Klammern steht. Wiederhole diesen Vorgang so lange, '
+                        'bis du auf der Seite "Philosophie angelangt bist. Es kann in manchen Fällen jedoch '
+                        'vorkommen, dass kein Weg zum Ziel führt, wenn z.B. zwei Artikel aufeinander verweisen '
+                        'oder ein Artikel über keine Links verfügt, die den Spielregeln entsprechen.',
+                      softWrap: true,
+                    ),
+                  )
+                ],
+              )  
+          ),
+            FlatButton(
+              child: new Text(
+                'Start!',
+                style: new TextStyle(
+                  fontSize:18.0,
+                  color: const Color(0xFFFAFAFA),
+                  fontWeight: FontWeight.w200,
+                  fontFamily: "Roboto"
+                ),
+              ),
+              color: Colors.deepPurpleAccent,
+              onPressed: _incrementCounter,
+            ),
+            /*
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.display1,
             ),
+            */
           ],
         ),
       ),
+      /*
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+        child: Icon(Icons.chevron_right),
+      ),
+      */ // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
+r
