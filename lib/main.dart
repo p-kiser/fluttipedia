@@ -147,7 +147,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               )  
           ),
-            RaisedButton(
+          ],
+        ),
+
+      ),
+        floatingActionButton: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+          FloatingActionButton(
+            // TODO: change this
+          onPressed: _nextInfoPage,
+          tooltip: 'previous Page',
+          child: Icon(Icons.chevron_left),
+        ),
+                    FloatingActionButton(
               child: new Text(
                 'Skip',
                 style: new TextStyle(
@@ -162,15 +175,13 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: _startGame,
               
             ),
+        FloatingActionButton(
+          onPressed: _nextInfoPage,
+          tooltip: 'next Page',
+          child: Icon(Icons.chevron_right),
+        ),
           ],
         ),
-      ),
-      
-      floatingActionButton: FloatingActionButton(
-        onPressed: _nextInfoPage,
-        tooltip: 'next Page',
-        child: Icon(Icons.chevron_right),
-      ),
     );
   }
 }
