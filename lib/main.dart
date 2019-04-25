@@ -36,32 +36,88 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  //int _counter = 0; // not used, part of the hello world template
+
   int _page = 1;
+  static const int _NUM_OF_PAGES = 3;
 
-  static const List<String> _infoTexts = [
-    
-    'Die Spielregeln sind simpel: '
-    'Klicke im Inhaltteil eines beliebigen Wikipedia-Artikels auf den ersten Link,'
-    ' der weder kursiv ist noch in Klammern steht. Wiederhole diesen Vorgang so lange, '
-    'bis du auf der Seite "Philosophie" angelangt bist. Es kann in manchen Fällen jedoch '
-    'vorkommen, dass kein Weg zum Ziel führt, wenn z.B. zwei Artikel aufeinander verweisen '
-    'oder ein Artikel über keine Links verfügt, die den Spielregeln entsprechen.',
 
-    'Doch keine Angst, du musst keinen Internet Explorer auf deinem Handy installieren. '
-    'Fluttipedia verwendet einen nextGen cloudbasierten AI-Microservice, der das Klicken für dich übernimmt. '
-    'Alles was du tun musst, ist zu Raten, wie viele '
-    'Klicks benötigt werden, um auf den Artikel "Philosophie" zu kommen.'
-    ,
-    'Basierend auf hochkomplexen, affektheuristischen Berechnungen vergibt dir Fluttipedia Punkte, je '
-    'nachdem wie gut du geraten hast. Alles klar? Wunderbar!',
+  // random buzzwords for tutorial texts, expand as needed
+  List<String> _buzzwordAdjective = ['hyperagile', 'Big Data', '5G NextGen',
+  'Cross Plattform','Test Driven', 'Deep Learning', 'Datafication', 'SaaS',
+  'PaaS', 'Bleeding Edge', 'Open Source', 'Machine Learning', ];
+  List<String> _buzzwordNoun = ['Microservices', 'IoT-Device Cluster',
+  'Artificial Neural Networks (ANN)', 'Quantum Computer', 'Hybrid-Clouds',
+  'Blockchain Engines', 'Deep Web Services', 'Cloud-Algorithmen',
+  'Crypto Container', ];
 
-  ];
+  // dynamically generate tutorial content based on random bs list
+  List<RichText> getInfoText() {
+    List<RichText> infoText = [
+      RichText(
+        //textAlign: TextAlign.center,
+        text: TextSpan(
+          style: TextStyle(color: Colors.black87),
+          children: <TextSpan>[
+            TextSpan(text: 'Die Spielregeln sind simpel:'),
+            TextSpan(text: '\n\n'),
+            TextSpan(text: 'Klicke im Inhaltteil eines beliebigen Wikipedia-Artikels '),
+            TextSpan(text: 'auf den ersten Link, der weder '),
+            TextSpan(text: 'kursiv', style: TextStyle(fontStyle: FontStyle.italic)),
+            TextSpan(text: ' ist noch in (Klammern) steht.'),
+            TextSpan(text: '\n\n'), 
+            TextSpan(text: 'Wiederhole diesen Vorgang so lange, '),
+            TextSpan(text: 'bis du auf der Seite "Philosophie" angelangt bist. Es kann in manchen Fällen jedoch '),
+            TextSpan(text: 'vorkommen, dass kein Weg zum Ziel führt, wenn z.B. zwei Artikel aufeinander verweisen '),
+            TextSpan(text: 'oder ein Artikel über keine Links verfügt, die den Spielregeln entsprechen.'),
+          ],
+        ),
+      ),
+      RichText(
+        //textAlign: TextAlign.center,
+        text: TextSpan(
+          style: TextStyle(color: Colors.black87),
+          
+          children: <TextSpan>[
+            TextSpan(text: 'Doch keine Angst, du musst keinen Internet Explorer '),
+            TextSpan(text: 'auf deinem Handy installieren.\n\n'),
+            TextSpan(text: 'Die Fluttipedia™ App verwendet fortgeschrittene\n '),
+            // bs description of the skiadopen microservice
+            TextSpan(
+              text: (_buzzwordAdjective..shuffle()).first + " " + (_buzzwordNoun..shuffle()).first + "\n", 
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
+            ), 
+            TextSpan(text: 'die das Klicken für dich übernehmen. Alles was du tun musst, ist zu Raten, wie viele '),
+            TextSpan(text: 'Klicks benötigt werden, um auf den Artikel "Philosophie" zu kommen.'),
+          ] 
+        ),
+      ),
+      RichText(
+        //textAlign: TextAlign.center,
+        text: TextSpan(
+          style: TextStyle(color: Colors.black87),
+          children: <TextSpan>[
+            TextSpan(text: 'Basierend auf hochkomplexen, affektheuristischen Algorithmen '),
+            TextSpan(text: 'vergibt dir Fluttipedia Punkte, je nachdem wie gut du geraten hast.'),
+            TextSpan(text: '\n\n'),
+            TextSpan(text: 'Alles klar? Wunderbar!'),
+          ] 
+        ),
+      ),
+    ];
+    return infoText;
+  }
+
+  void _previousInfoPage() {
+    setState(() {
+      if (_page > 1) _page--;
+    });
+     
+  }
 
   void _nextInfoPage() {
     setState(() {
       
-      if (_page < _infoTexts.length) {
+      if (_page < _NUM_OF_PAGES) {
         _page++;
         // TODO: next tutorial text
         debugPrint("Go to page $_page");
@@ -74,24 +130,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _startGame() {
     setState(() {
-      //  reset tutorial for debugging
-      _page = 1;
+      // TODO: Start the game      
       debugPrint("Start the game");
-      // TODO: Start the game
+      _page = 1;
     });
   }
-
-  /* not used - part of the hello world template
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. 
-      _counter++;
-      debugPrint("Start pressed $_counter times.");
-    });
-  }
-  */
 
   @override
   Widget build(BuildContext context) {
@@ -102,20 +145,13 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+      
+      body: Container(
         child: Column(
-          // Column is also layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // To invoke "debug painting" press "p" in the console
-
           mainAxisAlignment: MainAxisAlignment.center, // vertical alignment
           children: <Widget>[
             Text(
-              "Spielregeln (${_page}/${_infoTexts.length})",
+              'Getting to Philosophy',
               style: Theme.of(context).textTheme.display1,
             ),
             Container(
@@ -123,10 +159,9 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-
                   Center(
                     child: Text(
-                      '"Getting to Philosophy"',
+                      'Fluttorial ($_page/$_NUM_OF_PAGES)',
                       style: Theme.of(context).textTheme.subtitle
                     ),
                   ),
@@ -139,10 +174,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Container(
                     padding: const EdgeInsets.all(24),
-                    child: Text(
-                      _infoTexts[_page-1],
-                      softWrap: true,
-                    ),
+                    child: getInfoText()[_page - 1],
                   )
                 ],
               )  
@@ -152,34 +184,38 @@ class _MyHomePageState extends State<MyHomePage> {
 
       ),
         floatingActionButton: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-          FloatingActionButton(
-            // TODO: change this
-          onPressed: _nextInfoPage,
-          tooltip: 'previous Page',
-          child: Icon(Icons.chevron_left),
-        ),
-                    FloatingActionButton(
+            Visibility(
+              child: FloatingActionButton(
+                onPressed: _previousInfoPage,
+                tooltip: 'previous Page',
+                child: Icon(Icons.chevron_left),
+              ),
+              visible: _page > 1,
+            ),
+            MaterialButton(
               child: new Text(
-                'Skip',
+                _page == 3 ? 'Start' : 'Skip',
                 style: new TextStyle(
-                  fontSize:18.0,
-                  //color: const Color(0xFFFAFAFA),
-                  fontWeight: FontWeight.w200,
+                  fontSize:16.0,
+                  fontWeight: FontWeight.w400,
                   fontFamily: "Roboto"
                 ),
               ),
-              //color: Colors.deepPurpleAccent,
               // TODO: Go to start of the game
               onPressed: _startGame,
               
             ),
-        FloatingActionButton(
-          onPressed: _nextInfoPage,
-          tooltip: 'next Page',
-          child: Icon(Icons.chevron_right),
-        ),
+            Visibility(
+              child: 
+                FloatingActionButton(
+                  onPressed: _nextInfoPage,
+                  tooltip: 'next Page',
+                  child: Icon(Icons.chevron_right),
+              ),
+              visible: _page < _NUM_OF_PAGES,            
+            ),
           ],
         ),
     );
