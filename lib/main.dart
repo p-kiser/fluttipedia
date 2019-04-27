@@ -20,15 +20,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override
@@ -39,7 +30,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   int _page = 1;
   static const int _NUM_OF_PAGES = 3;
-
 
   // random buzzwords for tutorial texts, expand as needed
   List<String> _buzzwordAdjective = ['hyperagile', 'Big Data', '5G NextGen',
@@ -107,30 +97,18 @@ class _MyHomePageState extends State<MyHomePage> {
     return infoText;
   }
 
-  void _previousInfoPage() {
-    setState(() {
-      if (_page > 1) _page--;
-    });
-     
-  }
+  void _previousInfoPage() { setState( () { if (_page > 1) _page--; }); }
 
-  void _nextInfoPage() {
-    setState(() {
-      
-      if (_page < _NUM_OF_PAGES) {
-        _page++;
-        // TODO: next tutorial text
+  void _nextInfoPage() { setState(() {
+      if (_page < _NUM_OF_PAGES) { _page++;
         debugPrint("Go to page $_page");
-      } else {
-        //TODO: start the game
-        _startGame();
-      }
+      } else { _startGame(); }
     });
   }
 
   void _startGame() {
     setState(() {
-      // TODO: Start the game      
+      // TODO: Start the game
       debugPrint("Start the game");
       _page = 1;
     });
@@ -141,83 +119,60 @@ class _MyHomePageState extends State<MyHomePage> {
     // This method is rerun every time setState is called
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      
       body: Container(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center, // vertical alignment
+          mainAxisAlignment: MainAxisAlignment.start, // vertical alignment
           children: <Widget>[
+            Container(
+              padding: EdgeInsets.all(24),
+              child: Text(
+                'Getting to Philosophy',
+                style: Theme.of(context).textTheme.display1,
+              ),
+            ),
             Text(
-              'Getting to Philosophy',
-              style: Theme.of(context).textTheme.display1,
+              'Fluttorial ($_page/$_NUM_OF_PAGES)',
+              style: Theme.of(context).textTheme.subtitle
+            ),
+            Image.asset(
+              'images/skiapoden-trans.png',
+              width: 600,
+              fit: BoxFit.cover,
             ),
             Container(
-              padding: const EdgeInsets.all(8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Center(
-                    child: Text(
-                      'Fluttorial ($_page/$_NUM_OF_PAGES)',
-                      style: Theme.of(context).textTheme.subtitle
-                    ),
-                  ),
-                  Center(
-                    child: Image.asset(
-                    'images/skiapoden-trans.png',
-                    width: 600,
-                    fit: BoxFit.cover,
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(24),
-                    child: getInfoText()[_page - 1],
-                  )
-                ],
-              )  
-          ),
+              padding: EdgeInsets.all(42),
+              child: getInfoText()[_page - 1],
+            ),
           ],
         ),
-
       ),
-        floatingActionButton: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Visibility(
-              child: FloatingActionButton(
-                onPressed: _previousInfoPage,
-                tooltip: 'previous Page',
-                child: Icon(Icons.chevron_left),
-              ),
-              visible: _page > 1,
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Visibility(
+            child: FloatingActionButton(
+              onPressed: _previousInfoPage,
+              tooltip: 'previous Page',
+              child: Icon(Icons.chevron_left),
             ),
-            MaterialButton(
-              child: new Text(
-                _page == 3 ? 'Start' : 'Skip',
-                style: new TextStyle(
-                  fontSize:16.0,
-                  fontWeight: FontWeight.w400,
-                  fontFamily: "Roboto"
-                ),
-              ),
-              // TODO: Go to start of the game
-              onPressed: _startGame,
-              
+            visible: _page > 1,
+          ),
+          MaterialButton(
+            child: new Text( _page == 3 ? 'Start' : 'Skip' ),
+            onPressed: _startGame
+          ),
+          Visibility(
+            child: FloatingActionButton(
+              onPressed: _nextInfoPage,
+              tooltip: 'next Page',
+              child: Icon(Icons.chevron_right),
             ),
-            Visibility(
-              child: 
-                FloatingActionButton(
-                  onPressed: _nextInfoPage,
-                  tooltip: 'next Page',
-                  child: Icon(Icons.chevron_right),
-              ),
-              visible: _page < _NUM_OF_PAGES,            
-            ),
-          ],
-        ),
+            visible: _page < _NUM_OF_PAGES,            
+          ),
+        ],
+      ),
     );
   }
 }
