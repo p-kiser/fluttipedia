@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fluttipedia/guess.dart';
+import 'package:fluttipedia/test.dart';
 
 void main() => runApp(FluttiApp());
 
@@ -9,10 +11,16 @@ class FluttiApp extends StatelessWidget {
     return MaterialApp(
       title: 'Futtipedia',
       theme: ThemeData( primarySwatch: Colors.deepPurple ),
+      // TODO: make a proper home screen with logo
+      // and two buttons: start & tutorial
       home: TutorialPage(title: 'Fluttipedia'),
-      initialRoute: '/',
+      //initialRoute: '/',
       routes: <String, WidgetBuilder>{
-        //'/': (context) => TutorialPage(),
+        '/tutorial': (context) => TutorialPage(),
+        '/guess': (context) => GuessPage(),
+        // '/game': (context) => GamePage(),
+        // '/result': (context) => ResultPage(),
+        // '/config': (context) => ConfigPage(),
         '/test': (context) => TestPage(),
       },
     );
@@ -21,9 +29,7 @@ class FluttiApp extends StatelessWidget {
 
 class TutorialPage extends StatefulWidget {
   TutorialPage({Key key, this.title}) : super(key: key);
-
   final String title;
-
   @override
   _TutorialPageState createState() => _TutorialPageState();
 }
@@ -113,7 +119,7 @@ class _TutorialPageState extends State<TutorialPage> {
       _page = 1; // reset tutorial
       // TODO: Start the game
       debugPrint("Start the game");
-      Navigator.pushNamed(context, '/test');
+      Navigator.pushNamed(context, '/guess');
     });
   }
 
@@ -180,21 +186,3 @@ class _TutorialPageState extends State<TutorialPage> {
   }
 }
 
-class TestPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('TEST'),
-      ),
-      body: new Center(
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.pushNamed(context, '/');
-          },
-          child: Text('-This is the TEST page-'),
-        ),
-      ),
-    );
-  }
-}
