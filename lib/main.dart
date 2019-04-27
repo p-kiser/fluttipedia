@@ -1,32 +1,34 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(FluttiApp());
 
-class MyApp extends StatelessWidget {
+class FluttiApp extends StatelessWidget {
   // Root of the application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Futtipedia',
-      theme: ThemeData(
-        // Theme of your application.
-        primarySwatch: Colors.deepPurple,
-      ),
-      home: MyHomePage(title: 'Fluttipedia'),
+      theme: ThemeData( primarySwatch: Colors.deepPurple ),
+      home: TutorialPage(title: 'Fluttipedia'),
+      initialRoute: '/',
+      routes: <String, WidgetBuilder>{
+        //'/': (context) => TutorialPage(),
+        '/test': (context) => TestPage(),
+      },
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class TutorialPage extends StatefulWidget {
+  TutorialPage({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _TutorialPageState createState() => _TutorialPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _TutorialPageState extends State<TutorialPage> {
 
   int _page = 1;
   static const int _NUM_OF_PAGES = 3;
@@ -108,9 +110,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _startGame() {
     setState(() {
+      _page = 1; // reset tutorial
       // TODO: Start the game
       debugPrint("Start the game");
-      _page = 1;
+      Navigator.pushNamed(context, '/test');
     });
   }
 
@@ -172,6 +175,25 @@ class _MyHomePageState extends State<MyHomePage> {
             visible: _page < _NUM_OF_PAGES,            
           ),
         ],
+      ),
+    );
+  }
+}
+
+class TestPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('TEST'),
+      ),
+      body: new Center(
+        child: RaisedButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/');
+          },
+          child: Text('-This is the TEST page-'),
+        ),
       ),
     );
   }
