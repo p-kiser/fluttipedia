@@ -7,13 +7,13 @@ class TestPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('TEST'),
       ),
-      body: new Center(
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.pushNamed(context, '/');
-          },
-          child: Text('-This is the TEST page-'),
-        ),
+      body: Column(
+        children:<Widget>[
+          RaisedButton(
+            onPressed: () { Navigator.pushNamed(context, '/'); },
+            child: Text('Back to Fluttipedia'),
+          ),
+        ],
       ),
     );
   }

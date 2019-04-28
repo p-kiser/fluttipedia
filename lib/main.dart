@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttipedia/guess.dart';
+import 'package:fluttipedia/result.dart';
 import 'package:fluttipedia/test.dart';
 import 'package:fluttipedia/tutorial.dart';
 
@@ -18,7 +19,8 @@ class FluttiApp extends StatelessWidget {
         '/tutorial': (context) => TutorialPage(),
         '/guess': (context) => GuessPage(),
         // '/game': (context) => GamePage(),
-        // '/result': (context) => ResultPage(),
+        '/result': (context) => ResultPage(),
+        // '/score': (context) => ContextPage(),
         // '/config': (context) => ConfigPage(),
         '/test': (context) => TestPage(),
       },
