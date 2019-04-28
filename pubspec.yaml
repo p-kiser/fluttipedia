@@ -40,8 +40,10 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - images/skiapoden.png
-    - images/skiapoden-trans.png
+    - assets/img/skiapoden.png
+    - assets/img/skiapoden-trans.png
+    - assets/words_de.txt
+    
 
   # To add assets to your application, add an assets section, like this:
   # assets:
