@@ -19,15 +19,15 @@ class _GuessPageState extends State<GuessPage> {
   // Test strings to use until I figure out how to read from a file :)
   static List<String> _testWords =  [
     'Zeppelinwurst', 'Blümchenkaffee', 'Deppenleerzeichen', 'Stuhltransplantation',
-    'Schiebewurst', 'Bastarda', 'Joshua_Milton_Blahyi', 'Leberknödel', 'Bockbier'
+    'Schiebewurst', 'Bastarda', 'Joshua_Milton_Blahyi', 'Leberknödel', 'Bockbier',
     'Dachhase', 'Phallografie', 'Joseph_Pujol', 'Panzerabwehrhund', 'Landpomeranze',
     'Diogenes_von_Sinope', 'Beaujolais', 'Bielefeld-Verschwörung', 'Mäusemilch',
-    'Heilige_Vorhaut', 'Wechselbalg', 'Gemeine_Hundsrute', 'Lyoner',
+    'Heilige_Vorhaut', 'Wechselbalg', 'Gemeine_Hundsrute', 'Lyoner', 'Rotkreuz_ZG'
   ];
 
-  static String _path = 'assets/words_' + _lang + '.txt';
-  //static File data = new File(_path);
-  //List<String> _words = data.readAsLinesSync();
+  // static String _path = 'assets/words_' + _lang + '.txt';
+  // static File data = new File(_path);
+  // List<String> _words = data.readAsLinesSync();
   static var _words = _testWords;
 
   static String _word = _getRandom(_words);
@@ -52,7 +52,7 @@ class _GuessPageState extends State<GuessPage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text('Fluttipedia')),
+        appBar: AppBar(title: Text('Fluttipedia - Guess')),
         body: Container(
           padding: EdgeInsets.all(42),
           child: Column(children: [
