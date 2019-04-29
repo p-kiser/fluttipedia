@@ -12,7 +12,7 @@ class FluttiApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Futtipedia - The Game!!1!',
-      theme: ThemeData( primarySwatch: Colors.deepPurple ),
+      theme: ThemeData(primarySwatch: Colors.deepPurple),
       home: HomePage(),
       //initialRoute: '/',
       routes: <String, WidgetBuilder>{

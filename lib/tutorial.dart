@@ -105,8 +105,9 @@ class _TutorialPageState extends State<TutorialPage> {
         title: Text(widget.title),
       ),
       body: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start, // vertical alignment
+        margin: EdgeInsets.fromLTRB(0, 0, 0, 87.5),
+        child: ListView(
+          // mainAxisAlignment: MainAxisAlignment.start, // vertical alignment
           children: <Widget>[
             Container(
               padding: EdgeInsets.all(24),
@@ -117,7 +118,8 @@ class _TutorialPageState extends State<TutorialPage> {
             ),
             Text(
               'Fluttorial ($_page/$_NUM_OF_PAGES)',
-              style: Theme.of(context).textTheme.subtitle
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.title
             ),
             Image.asset(
               'assets/img/skiapoden-trans.png',
@@ -132,27 +134,34 @@ class _TutorialPageState extends State<TutorialPage> {
         ),
       ),
       floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Visibility(
-            child: FloatingActionButton(
+            child: RaisedButton(
+              color: Theme.of(context).accentColor,
               onPressed: _previousInfoPage,
-              tooltip: 'previous Page',
-              child: Icon(Icons.chevron_left),
+              child: IconTheme(data: IconThemeData(
+                  color: Colors.white),
+                  child: Icon(Icons.chevron_left)
+              ),
             ),
             visible: _page > 1,
           ),
-          MaterialButton(
-            child: new Text( _page == 3 ? 'Start' : 'Skip' ),
+          RaisedButton(
+            color: Theme.of(context).accentColor,
+            child: new Text( _page == 3 ? 'Start' : 'Skip' , style: TextStyle(color: Colors.white)),
             onPressed: _startGame
           ),
           Visibility(
-            child: FloatingActionButton(
+            child: RaisedButton(
               onPressed: _nextInfoPage,
-              tooltip: 'next Page',
-              child: Icon(Icons.chevron_right),
+              color: Theme.of(context).accentColor,
+              child: IconTheme(data: IconThemeData(
+                  color: Colors.white),
+                  child: Icon(Icons.chevron_right)
+              ),
             ),
-            visible: _page < _NUM_OF_PAGES,            
+            visible: _page < _NUM_OF_PAGES,
           ),
         ],
       ),

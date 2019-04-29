@@ -54,6 +54,7 @@ class _ResultPageState extends State<ResultPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(primarySwatch: Colors.deepPurple),
       home: Scaffold(
         appBar: AppBar(title: Text('Fluttipedia - Results')),
         body: Container(
