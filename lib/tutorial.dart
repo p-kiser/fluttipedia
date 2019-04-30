@@ -13,7 +13,7 @@ class _TutorialPageState extends State<TutorialPage> {
   int _page = 1;
   static const int _NUM_OF_PAGES = 3;
 
-  // random buzzwords for tutorial texts, expand as needed
+  // Random buzzwords for tutorial texts, expand as needed
   List<String> _buzzwordAdjective = ['hyperagile', 'Big Data', '5G NextGen',
   'Cross Plattform','Test Driven', 'Deep Learning', 'Datafication', 'SaaS',
   'PaaS', 'Bleeding Edge', 'Open Source', 'Machine Learning', ];
@@ -22,25 +22,19 @@ class _TutorialPageState extends State<TutorialPage> {
   'Blockchain Engines', 'Deep Web Services', 'Cloud-Algorithmen',
   'Crypto Container', ];
 
-  // dynamically generate tutorial content based on random bs list
+  // Dynamically generate tutorial content based on scientifically proven expressions
   List<RichText> getInfoText() {
     List<RichText> infoText = [
       RichText(
-        //textAlign: TextAlign.center,
+        textAlign: TextAlign.justify,
         text: TextSpan(
           style: TextStyle(color: Colors.black87),
           children: <TextSpan>[
-            TextSpan(text: 'Die Spielregeln sind simpel:'),
-            TextSpan(text: '\n\n'),
-            TextSpan(text: 'Klicke im Inhaltteil eines beliebigen Wikipedia-Artikels '),
-            TextSpan(text: 'auf den ersten Link, der weder '),
+            TextSpan(text: 'Die Spielregeln sind simpel:\n\n'),
+            TextSpan(text: 'Klicke im Inhaltteil eines beliebigen Wikipedia-Artikels auf den ersten Link, der weder '),
             TextSpan(text: 'kursiv', style: TextStyle(fontStyle: FontStyle.italic)),
-            TextSpan(text: ' ist noch in (Klammern) steht.'),
-            TextSpan(text: '\n\n'), 
-            TextSpan(text: 'Wiederhole diesen Vorgang so lange, '),
-            TextSpan(text: 'bis du auf der Seite "Philosophie" angelangt bist. Es kann in manchen Fällen jedoch '),
-            TextSpan(text: 'vorkommen, dass kein Weg zum Ziel führt, wenn z.B. zwei Artikel aufeinander verweisen '),
-            TextSpan(text: 'oder ein Artikel über keine Links verfügt, die den Spielregeln entsprechen.'),
+            TextSpan(text: ' ist noch in (Klammern) steht.\n\n'),
+            TextSpan(text: 'Wiederhole diesen Vorgang so lange, bis du auf der Seite "Philosophie" angelangt bist. Es kann in manchen Fällen jedoch vorkommen, dass kein Weg zum Ziel führt, wenn z.B. zwei Artikel aufeinander verweisen oder ein Artikel über keine Links verfügt, die den Spielregeln entsprechen.'),
           ],
         ),
       ),
@@ -48,18 +42,16 @@ class _TutorialPageState extends State<TutorialPage> {
         //textAlign: TextAlign.center,
         text: TextSpan(
           style: TextStyle(color: Colors.black87),
-          
           children: <TextSpan>[
-            TextSpan(text: 'Doch keine Angst, du musst keinen Internet Explorer '),
-            TextSpan(text: 'auf deinem Handy installieren.\n\n'),
-            TextSpan(text: 'Die Fluttipedia™ App verwendet fortgeschrittene\n '),
-            // bs description of the skiadopen microservice
+            TextSpan(text: 'Doch keine Angst, du musst keinen Internet Explorer auf deinem Handy installieren.\n\n'),
+            TextSpan(text: ''),
+            TextSpan(text: 'Die Fluttipedia™ App verwendet fortgeschrittene\n'),
+            // Display dynamically loaded word because reasons
             TextSpan(
               text: (_buzzwordAdjective..shuffle()).first + " " + (_buzzwordNoun..shuffle()).first + "\n", 
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
             ), 
-            TextSpan(text: 'die das Klicken für dich übernehmen. Alles was du tun musst, ist zu Raten, wie viele '),
-            TextSpan(text: 'Klicks benötigt werden, um auf den Artikel "Philosophie" zu kommen.'),
+            TextSpan(text: 'die das Klicken für dich übernehmen. Alles was du tun musst, ist zu Raten, wie viele Klicks benötigt werden, um auf den Artikel "Philosophie" zu kommen.'),
           ] 
         ),
       ),
@@ -68,9 +60,7 @@ class _TutorialPageState extends State<TutorialPage> {
         text: TextSpan(
           style: TextStyle(color: Colors.black87),
           children: <TextSpan>[
-            TextSpan(text: 'Basierend auf hochkomplexen, affektheuristischen Algorithmen '),
-            TextSpan(text: 'vergibt dir Fluttipedia Punkte, je nachdem wie gut du geraten hast.'),
-            TextSpan(text: '\n\n'),
+            TextSpan(text: 'Basierend auf hochkomplexen, affektheuristischen Algorithmen vergibt dir Fluttipedia Punkte, je nachdem wie gut du geraten hast.\n\n'),
             TextSpan(text: 'Alles klar? Wunderbar!'),
           ] 
         ),
@@ -84,30 +74,19 @@ class _TutorialPageState extends State<TutorialPage> {
   void _nextInfoPage() { setState(() {
       if (_page < _NUM_OF_PAGES) { _page++;
         debugPrint("Go to page $_page");
-      } else { _startGame(); }
-    });
-  }
-
-  void _startGame() {
-    setState(() {
-      _page = 1; // reset tutorial
-      // TODO: Start the game
-      debugPrint("Start the game");
-      Navigator.pushNamed(context, '/guess');
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
       body: Container(
-        margin: EdgeInsets.fromLTRB(0, 0, 0, 87.5),
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 87.5),
         child: ListView(
-          // mainAxisAlignment: MainAxisAlignment.start, // vertical alignment
           children: <Widget>[
             Container(
               padding: EdgeInsets.all(24),
@@ -123,8 +102,7 @@ class _TutorialPageState extends State<TutorialPage> {
             ),
             Image.asset(
               'assets/img/skiapoden-trans.png',
-              width: 600,
-              fit: BoxFit.cover,
+              fit: BoxFit.scaleDown,
             ),
             Container(
               padding: EdgeInsets.all(42),
@@ -135,27 +113,23 @@ class _TutorialPageState extends State<TutorialPage> {
       ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           Visibility(
-            child: RaisedButton(
-              color: Theme.of(context).accentColor,
+            child: FloatingActionButton(
+              foregroundColor: Theme.of(context).accentColor,
               onPressed: _previousInfoPage,
               child: IconTheme(data: IconThemeData(
                   color: Colors.white),
-                  child: Icon(Icons.chevron_left)
+                child: Icon(Icons.chevron_left),
               ),
             ),
             visible: _page > 1,
           ),
-          RaisedButton(
-            color: Theme.of(context).accentColor,
-            child: new Text( _page == 3 ? 'Start' : 'Skip' , style: TextStyle(color: Colors.white)),
-            onPressed: _startGame
-          ),
           Visibility(
-            child: RaisedButton(
+            child: FloatingActionButton(
               onPressed: _nextInfoPage,
-              color: Theme.of(context).accentColor,
+              foregroundColor: Theme.of(context).accentColor,
               child: IconTheme(data: IconThemeData(
                   color: Colors.white),
                   child: Icon(Icons.chevron_right)
