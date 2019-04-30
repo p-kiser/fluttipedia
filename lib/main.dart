@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttipedia/guess.dart';
 import 'package:fluttipedia/result.dart';
-import 'package:fluttipedia/test.dart';
 import 'package:fluttipedia/tutorial.dart';
 
 void main() => runApp(FluttiApp());
@@ -11,57 +10,110 @@ class FluttiApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Futtipedia - The Game!!1!',
+      title: 'Futtipedia',
+      debugShowCheckedModeBanner: false, // TODO Sollte den Debug-Banner entfernen, scheint aber nichts zu bewirken.
       theme: ThemeData(primarySwatch: Colors.deepPurple),
       home: HomePage(),
-      //initialRoute: '/',
-      routes: <String, WidgetBuilder>{
-        '/tutorial': (context) => TutorialPage(),
-        '/guess': (context) => GuessPage(),
-        // '/game': (context) => GamePage(),
-        '/result': (context) => ResultPage(),
-        // '/score': (context) => ContextPage(),
-        // '/config': (context) => ConfigPage(),
-        '/test': (context) => TestPage(),
-      },
     );
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  HomePage({Key key, this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  PageController _pageController;
+  int _page = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = new PageController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pageController.dispose();
+  }
+
+  void navigationTapped(int page) {
+    _pageController.animateToPage(page,
+        duration: const Duration(milliseconds: 500), curve: Curves.ease);
+  }
+
+  void onPageChanged(int page) {
+    setState(() {
+      this._page = page;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Fluttipedia'),
+      body: PageView(
+        children: [
+          // Adds pages to the bottom navigation bar
+          GuessPage(),
+          ResultPage(),
+          TutorialPage(),
+        ],
+        onPageChanged: onPageChanged,
+        controller: _pageController,
       ),
-      body: Container(
-        padding: EdgeInsets.all(42),
-
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Text(
-                'Fluttipedia v 0.1.1',
-                style: Theme.of(context).textTheme.display1,
+      bottomNavigationBar: new Theme(
+        data: Theme.of(context).copyWith(
+          canvasColor: Colors.deepPurple,
+        ),
+        child: new BottomNavigationBar(
+          items: [
+            // Styles the bottom navigation bar items
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.games,
+                color: Colors.white,
               ),
-              RaisedButton(
-                onPressed: () { Navigator.pushNamed(context, '/tutorial'); },
-                child: Text('Tutorial'),
-              ),
-              RaisedButton(
-                onPressed: () { Navigator.pushNamed(context, '/guess'); },
-                child: Text('Start the game'),
-              ),       
-              RaisedButton(
-                onPressed: () { Navigator.pushNamed(context, '/test'); },
-                child: Text('DEBUG_PAGE'),
+              title: Text(
+                "Spiel starten",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              )
             ),
-          ],)
-          
-
-        //),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.insert_drive_file,
+                color: Colors.white,
+              ),
+              title: Text(
+                "Resultate",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              )
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.info_outline,
+                color: Colors.white,
+              ),
+              title: Text(
+                "Anleitung",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              )
+            ),
+          ],
+          onTap: navigationTapped,
+          currentIndex: _page,
+        ),
       ),
     );
   }
