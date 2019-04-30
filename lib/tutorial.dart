@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class TutorialPage extends StatefulWidget {
   TutorialPage({Key key }) : super(key: key);
-   String title = "Fluttipedia - Tutorial";
+   String title = "Fluttipedia - Anleitung";
   @override
   _TutorialPageState createState() => _TutorialPageState();
 }

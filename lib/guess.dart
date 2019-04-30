@@ -53,58 +53,111 @@ class _GuessPageState extends State<GuessPage> {
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.deepPurple),
       home: Scaffold(
-        appBar: AppBar(title: Text('Fluttipedia - Guess')),
+        appBar: AppBar(title: Text('Fluttipedia - Spiel')),
         body: Container(
-          padding: EdgeInsets.all(42),
+          padding: EdgeInsets.all(8),
           child: Column(children: [
-            Text('Ziel: $_target'),
-            Divider(),
-            Text('Begriff:', style: TextStyle(fontSize: 24),),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(_prettify(_word)),
-                //Text('($_word)'),
-                RaisedButton(
-                  child: Icon(Icons.shuffle),
-                  onPressed: _shuffle,
-                ),
-              ],
-            ),
-            Divider(),
-            Slider(
-              value: _val.toDouble(),
-              min: 0,
-              max: _maxVal.toDouble(),
-              divisions: _maxVal,
-              label: 'What is your guess?',
-              onChanged: (double newVal) {
-                setState(() {
-                  _val = newVal.toInt();
-                  debugPrint('$_val');
-                });
-              },
-            ),
-            Divider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text('0'),
-                Text(
-                  _val < _maxVal ? _val.toString() : '∞',
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold,
+            Card(
+              elevation: 3,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  ListTile(
+                    title: Text('Ziel'),
+                    subtitle: Text('$_target'),
                   ),
+                ],
+              ),
+            ),
+            Card(
+              elevation: 3,
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(0, 14, 0, 8),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    ListTile(
+                      title: Text('Begriff'),
+                      subtitle: Container(
+                        // padding: EdgeInsets.fromLTRB(16, 0, 16, 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(_word),
+                            //Text('($_word)'),
+                            RaisedButton(
+                              child: Icon(
+                                Icons.shuffle,
+                                color: Colors.white,
+                              ),
+                              color: Theme.of(context).accentColor,
+                              onPressed: _shuffle,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                Text('∞')
-              ],
+              ),
+            ),
+            Card(
+              elevation: 3,
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(0, 14, 0, 8),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    ListTile(
+                      title: Text('Aufrufe'),
+                      subtitle: Text('Schätze, wieviele Aufrufe es benötigt, bis das Ziel erreicht wurde.'),
+                    ),
+                    Slider(
+                      value: _val.toDouble(),
+                      min: 0,
+                      max: _maxVal.toDouble(),
+                      divisions: _maxVal,
+                      label: 'What is your guess?',
+                      onChanged: (double newVal) {
+                        setState(() {
+                          _val = newVal.toInt();
+                          debugPrint('$_val');
+                        });
+                      },
+                    ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(14, 0, 14, 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text('0'),
+                          Text(
+                            _val < _maxVal ? _val.toString() : '∞',
+                            style: TextStyle(
+                              fontSize: 24.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text('∞')
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
             Container(
+              padding: EdgeInsets.all(8),
               width: double.infinity,
               child: RaisedButton(
-                child: Text('Try it'),
-                onPressed: () { Navigator.pushNamed(context, '/result'); },  
+                color: Theme.of(context).accentColor,
+                child: Text('Los!',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
+                onPressed: () { Navigator.pushNamed(context, '/result'); },
               ),
             ),
           ]),

@@ -56,34 +56,65 @@ class _ResultPageState extends State<ResultPage> {
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.deepPurple),
       home: Scaffold(
-        appBar: AppBar(title: Text('Fluttipedia - Results')),
+        appBar: AppBar(title: Text('Fluttipedia - Resultate')),
         body: Container(
-          padding: EdgeInsets.all(42),
+          padding: EdgeInsets.all(8),
           child: ListView(
             children: <Widget>[
-              Text(
-                'Resultate', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              Card(
+                elevation: 3,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(0, 14, 0, 14),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      ListTile(
+                        title: Text('Aufgerufene Begriffe'),
+                        subtitle: Column(
+                          children:
+                          _getResults(_results),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              Column(
-                children:
-                _getResults(_results),
+              Card(
+                elevation: 3,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(0, 14, 0, 14),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      ListTile(
+                        title: Text('Auswertung'),
+                        subtitle: Column(
+                          children: <Widget>[
+                            Text('Geratene Aufrufe: $_guess'),
+                            Text('Effektive Aufrufe: ${_dummyResults.length-1}')
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              Text(
-                'Auswertung', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              Card(
+                elevation: 3,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    ListTile(
+                      title: Text('Punktzahl'),
+                      subtitle: Column(
+                        children: <Widget>[
+                          Text('1.5'),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              Column(
-                children: <Widget>[
-                  Text('Geraten: $_guess'),
-                  Text('Resultat: ${_dummyResults.length-1}')
-                ],
-              ),
-              Text(
-                'Score', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              Column(children: <Widget>[
-                  Text('1.5'),
-                ],
-                )
             ],
           ),
         ),

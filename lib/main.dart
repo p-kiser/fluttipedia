@@ -14,6 +14,11 @@ class FluttiApp extends StatelessWidget {
       debugShowCheckedModeBanner: false, // TODO Sollte den Debug-Banner entfernen, scheint aber nichts zu bewirken.
       theme: ThemeData(primarySwatch: Colors.deepPurple),
       home: HomePage(),
+      routes: <String, WidgetBuilder>{
+        '/guess': (context) => GuessPage(),
+        '/result': (context) => ResultPage(),
+        '/tutorial': (context) => TutorialPage(),
+      },
     );
   }
 }
