@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttipedia/guess.dart';
 import 'package:fluttipedia/result.dart';
 import 'package:fluttipedia/tutorial.dart';
+import 'package:fluttipedia/settings.dart';
 
 void main() => runApp(FluttiApp());
 
@@ -10,7 +11,7 @@ class FluttiApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Futtipedia',
+      title: 'Fluttipedia™',
       debugShowCheckedModeBanner: false, // TODO Sollte den Debug-Banner entfernen, scheint aber nichts zu bewirken.
       theme: ThemeData(primarySwatch: Colors.deepPurple),
       home: HomePage(),
@@ -18,6 +19,7 @@ class FluttiApp extends StatelessWidget {
         '/guess': (context) => GuessPage(),
         '/result': (context) => ResultPage(),
         '/tutorial': (context) => TutorialPage(),
+        '/setting': (context) => SettingsPage(),
       },
     );
   }
@@ -68,6 +70,7 @@ class _HomePageState extends State<HomePage> {
           GuessPage(),
           ResultPage(),
           TutorialPage(),
+          SettingsPage(),
         ],
         onPageChanged: onPageChanged,
         controller: _pageController,
@@ -85,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.white,
               ),
               title: Text(
-                "Spiel starten",
+                "Spiel",
                 style: TextStyle(
                   color: Colors.white,
                 ),
@@ -114,6 +117,18 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.white,
                 ),
               )
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.settings,
+                  color: Colors.white,
+                ),
+                title: Text(
+                  "Einstellungen",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                )
             ),
           ],
           onTap: navigationTapped,

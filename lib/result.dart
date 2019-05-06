@@ -56,7 +56,7 @@ class _ResultPageState extends State<ResultPage> {
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.deepPurple),
       home: Scaffold(
-        appBar: AppBar(title: Text('Fluttipedia - Resultate')),
+        appBar: AppBar(title: Text('Fluttipedia™')),
         body: Container(
           padding: EdgeInsets.all(8),
           child: ListView(

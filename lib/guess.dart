@@ -53,7 +53,7 @@ class _GuessPageState extends State<GuessPage> {
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.deepPurple),
       home: Scaffold(
-        appBar: AppBar(title: Text('Fluttipedia - Spiel')),
+        appBar: AppBar(title: Text('Fluttipedia™')),
         body: Container(
           padding: EdgeInsets.all(8),
           child: Column(children: [
