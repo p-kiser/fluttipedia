@@ -1,6 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
+
 
 class ResultPage extends StatefulWidget {
   @override
@@ -9,42 +12,49 @@ class ResultPage extends StatefulWidget {
   }
 }
 
+
 class _ResultPageState extends State<ResultPage> {
+
+  static final String WIKI_PREFIX = 'https://de.wikipedia.org/wiki/';
+  static final String _url = 'https://skiapoden.herokuapp.com/firstlink';
+
+  static String _start = 'Zeppelinwurst';
+  List<String> _res= ['$_start',];
+  List<Text> resultList;
 
   // TODO: get from config
   static int _max = 20;
   static String _lang = 'de';
 
   // TODO: get from GuessPage
-  static int _guess = 6;
-  static String _word = 'Zeppelinwurst';
-  List<String> _results = ['$_word',];
-
-  List<String> _dummyResults = ['Zeppelinwurst', 'Leberwurst', 'Kochwurst', 'Wurst', 'Nahrungsmittel', 'Lebensmittel', 'Menschlicher_Körper', 'Materie_(Philosophie)', 'Philosophie'];
-
-  
+  int _guess = 6;
   /* Fetching from teh interwebz */
   //curl -X POST https://skiapoden.herokuapp.com/firstlink -d '{ "language": "en", "article": "Heroku" }'
+  
+  
+  Future<String> getFirstLink(String _word)  async {
 
-  void fetchPost() async {
-
-    String url = 'https://skiapoden.herokuapp.com/firstlink -d \'{ "language": "$_lang", "article": "$_word" }\'';
-    final response = await http.post(url);
-
+    debugPrint('uri: $_url');
+    var _data = '{ "language": "$_lang", "article": "$_word" }';
+    final response = await http.post(
+      'https://skiapoden.herokuapp.com/firstlink',
+      headers: { HttpHeaders.contentTypeHeader: 'application/x-www-form-urlencoded' },
+      body: _data
+    );
+    // TODO: some proper error handling
     if (response.statusCode == 200) {
-      // If server returns an OK response, parse the JSON
-      debugPrint('Got dis from interwebz: $response.body');
-    } else {
-      // If that response was not OK, throw an error.
-      throw Exception('Failed to load post');
-    }
+      // get word from response
+      // TODO: using json.decode
+      String s = response.body.substring(14+WIKI_PREFIX.length, response.body.length-3);
+      debugPrint('$_word >>> $s');
+      return s;
+    } 
   }
 
- 
-  List<Widget> _getResults(List<String> _results) {
-    fetchPost();
-    return _dummyResults.map((text) => Text(text)).toList();
-    //return _results.map((text) => Text(text)).toList();
+  List<Widget> _getResults(List<String> _res) {
+    debugPrint('${_res.length}');
+    //return _dummyResults.map((text) => Text(text)).toList();
+    return _res.map((text) => Text(text)).toList();
   }
 
   String getNext(String word) {
@@ -72,7 +82,7 @@ class _ResultPageState extends State<ResultPage> {
                         title: Text('Aufgerufene Begriffe'),
                         subtitle: Column(
                           children:
-                          _getResults(_results),
+                          _getResults(_res),
                         ),
                       ),
                     ],
@@ -91,7 +101,7 @@ class _ResultPageState extends State<ResultPage> {
                         subtitle: Column(
                           children: <Widget>[
                             Text('Geratene Aufrufe: $_guess'),
-                            Text('Effektive Aufrufe: ${_dummyResults.length-1}')
+                            Text('Effektive Aufrufe: ${_res.length-1}')
                           ],
                         ),
                       ),
@@ -114,6 +124,23 @@ class _ResultPageState extends State<ResultPage> {
                     ),
                   ],
                 ),
+              ),
+              RaisedButton(
+                child: Text('Test'),
+                onPressed: () async {
+                  _res.add(await getFirstLink(_res[_res.length-1]));
+                  setState(() {
+                    //
+                  });
+                },
+              ),
+              RaisedButton(
+                child: Text('Empty List'),
+                onPressed: () {
+                  setState(() {
+                    _res = [_start,];
+                  });
+                }
               ),
             ],
           ),

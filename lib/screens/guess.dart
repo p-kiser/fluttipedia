@@ -4,10 +4,10 @@ import 'package:fluttipedia/widgets/targetCard.dart';
 
 class GuessPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return _GuessPageState();
-  }
+  State<StatefulWidget> createState() => _GuessPageState();
 }
+
+int userGuess = 0;
 
 class _GuessPageState extends State<GuessPage> {
 
@@ -15,6 +15,7 @@ class _GuessPageState extends State<GuessPage> {
   String _target = 'Philosophie';
   static String _lang = 'de';
   static int _maxVal = 20;
+
   int _val = _maxVal ~/ 2;
 
   // Test strings to use until I figure out how to read from a file :)
@@ -73,7 +74,7 @@ class _GuessPageState extends State<GuessPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Text(_word),
+                            Text(_prettify(_word)),
                             //Text('($_word)'),
                             RaisedButton(
                               child: Icon(
@@ -111,6 +112,7 @@ class _GuessPageState extends State<GuessPage> {
                       onChanged: (double newVal) {
                         setState(() {
                           _val = newVal.toInt();
+                          userGuess = _val;
                           debugPrint('$_val');
                         });
                       },
