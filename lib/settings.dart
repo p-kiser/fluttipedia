@@ -12,7 +12,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(primarySwatch: Colors.deepPurple),
+      theme: ThemeData(primarySwatch: Colors.indigo),
       home: Scaffold(
         appBar: AppBar(title: Text('Fluttipedia™')),
         body: Container(
