@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:fluttipedia/widgets/targetCard.dart';
 
 class GuessPage extends StatefulWidget {
   @override
@@ -57,18 +58,7 @@ class _GuessPageState extends State<GuessPage> {
         body: Container(
           padding: EdgeInsets.all(8),
           child: Column(children: [
-            Card(
-              elevation: 3,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  ListTile(
-                    title: Text('Ziel'),
-                    subtitle: Text('$_target'),
-                  ),
-                ],
-              ),
-            ),
+            TargetCard(_target),
             Card(
               elevation: 3,
               child: Padding(

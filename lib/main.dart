@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fluttipedia/guess.dart';
-import 'package:fluttipedia/result.dart';
-import 'package:fluttipedia/tutorial.dart';
-import 'package:fluttipedia/settings.dart';
+import 'package:fluttipedia/screens/guess.dart';
+import 'package:fluttipedia/screens/result.dart';
+import 'package:fluttipedia/screens/tutorial.dart';
+import 'package:fluttipedia/screens/settings.dart';
 
 void main() => runApp(FluttiApp());
 
