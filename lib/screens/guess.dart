@@ -1,6 +1,6 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fluttipedia/widgets/targetCard.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class GuessPage extends StatefulWidget {
   @override
@@ -11,12 +11,36 @@ int userGuess = 0;
 
 class _GuessPageState extends State<GuessPage> {
 
-  // TODO: get this from config
-  String _target = 'Philosophie';
-  static String _lang = 'de';
-  static int _maxVal = 20;
+  final String _targetKey = 'targetKey';
+  final String _hopsKey = 'hopsKey';
 
-  int _val = _maxVal ~/ 2;
+  String _target = 'Philosophie'; // Default target
+  static String _lang = 'de';
+  static int _maxHops = 20; // Default max Hops
+  int _currHops = 0;
+
+  @override
+  void initState() {
+    _loadTarget();
+    _loadHops();
+  }
+
+  _loadTarget() async {
+    final prefs = await SharedPreferences.getInstance();
+    String target = prefs.getString(_targetKey);
+
+    this._target = target;
+    debugPrint('Loaded persisted value \'$target\' with key \'$_targetKey\'.');
+  }
+
+  _loadHops() async {
+    final prefs = await SharedPreferences.getInstance();
+    int hops = prefs.getInt(_hopsKey);
+
+    _maxHops = hops;
+    _currHops = _maxHops ~/ 2;
+    debugPrint('Loaded persisted value \'$hops\' with key \'$_hopsKey\'.');
+  }
 
   // Test strings to use until I figure out how to read from a file :)
   static List<String> _testWords =  [
@@ -104,16 +128,16 @@ class _GuessPageState extends State<GuessPage> {
                       subtitle: Text('Schätze, wieviele Aufrufe es benötigt, bis das Ziel erreicht wurde.'),
                     ),
                     Slider(
-                      value: _val.toDouble(),
+                      value: _currHops.toDouble(),
                       min: 0,
-                      max: _maxVal.toDouble(),
-                      divisions: _maxVal,
+                      max: _maxHops.toDouble(),
+                      divisions: _maxHops,
                       label: 'What is your guess?',
                       onChanged: (double newVal) {
                         setState(() {
-                          _val = newVal.toInt();
-                          userGuess = _val;
-                          debugPrint('$_val');
+                          _currHops = newVal.toInt();
+                          userGuess = _currHops;
+                          debugPrint('$_currHops');
                         });
                       },
                     ),
@@ -124,7 +148,7 @@ class _GuessPageState extends State<GuessPage> {
                         children: <Widget>[
                           Text('0'),
                           Text(
-                            _val < _maxVal ? _val.toString() : '∞',
+                            _currHops < _maxHops ? _currHops.toString() : '∞',
                             style: TextStyle(
                               fontSize: 24.0,
                               fontWeight: FontWeight.bold,
