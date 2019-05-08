@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
             ),
             BottomNavigationBarItem(
               icon: Icon(
-                Icons.games,
+                Icons.play_circle_outline,
                 color: Colors.white,
               ),
               title: Text(
