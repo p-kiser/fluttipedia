@@ -55,33 +55,36 @@ class _TutorialPageState extends State<TutorialPage> {
         ),
       ),
       
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          Visibility(
-            child: FloatingActionButton(
-              foregroundColor: Theme.of(context).accentColor,
-              onPressed: _previousInfoPage,
-              child: IconTheme(data: IconThemeData(
-                  color: Colors.white),
-                child: Icon(Icons.chevron_left),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.fromLTRB(24.0, 0.0,0.0,0.0),
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Visibility(
+                child: FloatingActionButton(
+                  foregroundColor: Theme.of(context).accentColor,
+                  onPressed: _previousInfoPage,
+                  child: IconTheme(data: IconThemeData(
+                      color: Colors.white),
+                    child: Icon(Icons.chevron_left),
+                  ),
+                ),
+                visible: _page > 1,
               ),
-            ),
-            visible: _page > 1,
-          ),
-          Visibility(
-            child: FloatingActionButton(
-              onPressed: _nextInfoPage,
-              foregroundColor: Theme.of(context).accentColor,
-              child: IconTheme(data: IconThemeData(
-                  color: Colors.white),
-                  child: Icon(Icons.chevron_right)
+              Visibility(
+                child: FloatingActionButton(
+                  onPressed: _nextInfoPage,
+                  foregroundColor: Theme.of(context).accentColor,
+                  child: IconTheme(data: IconThemeData(
+                      color: Colors.white),
+                      child: Icon(Icons.chevron_right)
+                  ),
+                ),
+                visible: _page < _NUM_OF_PAGES,
               ),
-            ),
-            visible: _page < _NUM_OF_PAGES,
+            ],
           ),
-        ],
       ),
     );
   }

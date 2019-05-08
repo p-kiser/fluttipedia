@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 class TutorialText extends StatelessWidget {
   
-
-
   final int _index;
   //static const int _NUM_OF_PAGES = 3;
 
@@ -11,7 +9,6 @@ class TutorialText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Container(
       padding: EdgeInsets.all(42),
       child: getInfoText()[_index]);

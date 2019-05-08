@@ -2,8 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
-import 'dart:convert';
-
 
 class ResultPage extends StatefulWidget {
   @override
@@ -12,12 +10,13 @@ class ResultPage extends StatefulWidget {
   }
 }
 
-
 class _ResultPageState extends State<ResultPage> {
 
-  static final String WIKI_PREFIX = 'https://de.wikipedia.org/wiki/';
+  static final String _wikiPrefix = 'https://de.wikipedia.org/wiki/';
   static final String _url = 'https://skiapoden.herokuapp.com/firstlink';
 
+// TODO: get from GuessPage
+  int _guess = 6;
   static String _start = 'Zeppelinwurst';
   List<String> _res= ['$_start',];
   List<Text> resultList;
@@ -26,29 +25,26 @@ class _ResultPageState extends State<ResultPage> {
   static int _max = 20;
   static String _lang = 'de';
 
-  // TODO: get from GuessPage
-  int _guess = 6;
-  /* Fetching from teh interwebz */
-  //curl -X POST https://skiapoden.herokuapp.com/firstlink -d '{ "language": "en", "article": "Heroku" }'
-  
-  
+  /// Get the first link in a wikipedia page via Skiapoden microservice:
+  /// curl -X POST https://skiapoden.herokuapp.com/firstlink -d '{ "language": "en", "article": "Heroku" }'
   Future<String> getFirstLink(String _word)  async {
 
     debugPrint('uri: $_url');
+    String s;
     var _data = '{ "language": "$_lang", "article": "$_word" }';
     final response = await http.post(
       'https://skiapoden.herokuapp.com/firstlink',
       headers: { HttpHeaders.contentTypeHeader: 'application/x-www-form-urlencoded' },
       body: _data
     );
-    // TODO: some proper error handling
-    if (response.statusCode == 200) {
-      // get word from response
-      // TODO: using json.decode
-      String s = response.body.substring(14+WIKI_PREFIX.length, response.body.length-3);
-      debugPrint('$_word >>> $s');
-      return s;
-    } 
+    if (response.statusCode < 200 || response.statusCode > 400 ) {
+      throw new Exception("Error while fetching data");
+    }
+    // get word from response
+    // TODO: using json.decode
+    s = response.body.substring(14+_wikiPrefix.length, response.body.length-3);
+    debugPrint('$_word >>> $s');
+    return s;
   }
 
   List<Widget> _getResults(List<String> _res) {
@@ -57,8 +53,17 @@ class _ResultPageState extends State<ResultPage> {
     return _res.map((text) => Text(text)).toList();
   }
 
-  String getNext(String word) {
-    // TODO: recursively get from linked list via HTTP
+  double _getPoints(int g, int r) {
+    if (g == r && false) {
+      return 10.0;
+    } else {
+      // TODO: More complex algorithm
+      int difference = r > g ? r - g : g - r;
+      
+      double difficultyFactor = 1.0 + (r/10);
+      debugPrint('diff: $difference, factor: $difficultyFactor');
+      return 100*difficultyFactor - difference;
+    }
   }
 
   @override
@@ -71,23 +76,25 @@ class _ResultPageState extends State<ResultPage> {
           padding: EdgeInsets.all(8),
           child: ListView(
             children: <Widget>[
-              Card(
-                elevation: 3,
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(0, 14, 0, 14),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ListTile(
-                        title: Text('Aufgerufene Begriffe'),
-                        subtitle: Column(
-                          children:
-                          _getResults(_res),
-                        ),
-                      ),
-                    ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  RaisedButton(
+                    child: Text('Get Next Link!'),
+                    onPressed: () async {
+                      _res.add(await getFirstLink(_res[_res.length-1]));
+                      setState(() { });
+                    },
                   ),
-                ),
+                  RaisedButton(
+                    child: Text('Start again'),
+                    onPressed: () {
+                      setState(() {
+                        _res = [_start,];
+                      });
+                    }
+                  ),
+                ],
               ),
               Card(
                 elevation: 3,
@@ -118,29 +125,30 @@ class _ResultPageState extends State<ResultPage> {
                       title: Text('Punktzahl'),
                       subtitle: Column(
                         children: <Widget>[
-                          Text('1.5'),
+                          Text('${_getPoints(_guess,_res.length)}'),
                         ],
                       ),
                     ),
                   ],
                 ),
               ),
-              RaisedButton(
-                child: Text('Test'),
-                onPressed: () async {
-                  _res.add(await getFirstLink(_res[_res.length-1]));
-                  setState(() {
-                    //
-                  });
-                },
-              ),
-              RaisedButton(
-                child: Text('Empty List'),
-                onPressed: () {
-                  setState(() {
-                    _res = [_start,];
-                  });
-                }
+              Card(
+                elevation: 3,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(0, 14, 0, 14),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      ListTile(
+                        title: Text('Aufgerufene Begriffe'),
+                        subtitle: Column(
+                          children:
+                          _getResults(_res),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ],
           ),

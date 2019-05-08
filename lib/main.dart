@@ -67,9 +67,9 @@ class _HomePageState extends State<HomePage> {
       body: PageView(
         children: [
           // Adds pages to the bottom navigation bar
+          TutorialPage(),
           GuessPage(),
           ResultPage(),
-          TutorialPage(),
           SettingsPage(),
         ],
         onPageChanged: onPageChanged,
@@ -82,6 +82,18 @@ class _HomePageState extends State<HomePage> {
         child: new BottomNavigationBar(
           items: [
             // Styles the bottom navigation bar items
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.info_outline,
+                color: Colors.white,
+              ),
+              title: Text(
+                "Anleitung",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              )
+            ),
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.games,
@@ -101,18 +113,6 @@ class _HomePageState extends State<HomePage> {
               ),
               title: Text(
                 "Resultate",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              )
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.info_outline,
-                color: Colors.white,
-              ),
-              title: Text(
-                "Anleitung",
                 style: TextStyle(
                   color: Colors.white,
                 ),
