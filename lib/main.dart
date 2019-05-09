@@ -7,13 +7,14 @@ import 'package:fluttipedia/screens/settings.dart';
 void main() => runApp(FluttiApp());
 
 class FluttiApp extends StatelessWidget {
-  // Root of the application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Fluttipedia™',
       debugShowCheckedModeBanner: false, // TODO Sollte den Debug-Banner entfernen, scheint aber nichts zu bewirken.
-      theme: ThemeData(primarySwatch: Colors.deepPurple),
+      theme: ThemeData(
+        primarySwatch: Colors.deepPurple,
+      ),
       home: HomePage(),
       routes: <String, WidgetBuilder>{
         '/guess': (context) => GuessPage(),

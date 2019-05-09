@@ -80,14 +80,24 @@ class _ResultPageState extends State<ResultPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   RaisedButton(
-                    child: Text('Get Next Link!'),
+                    elevation: 3,
+                    color: Theme.of(context).accentColor,
+                    child: Text(
+                      'Get next link',
+                      style: TextStyle(color: Colors.white),
+                    ),
                     onPressed: () async {
                       _res.add(await getFirstLink(_res[_res.length-1]));
                       setState(() { });
                     },
                   ),
                   RaisedButton(
-                    child: Text('Start again'),
+                    elevation: 3,
+                    color: Theme.of(context).accentColor,
+                    child: Text(
+                      'Restart',
+                      style: TextStyle(color: Colors.white),
+                    ),
                     onPressed: () {
                       setState(() {
                         _res = [_start,];

@@ -101,6 +101,7 @@ class _GuessPageState extends State<GuessPage> {
                             Text(_prettify(_word)),
                             //Text('($_word)'),
                             RaisedButton(
+                              elevation: 3,
                               child: Icon(
                                 Icons.shuffle,
                                 color: Colors.white,
@@ -166,6 +167,7 @@ class _GuessPageState extends State<GuessPage> {
               padding: EdgeInsets.all(8),
               width: double.infinity,
               child: RaisedButton(
+                elevation: 3,
                 color: Theme.of(context).accentColor,
                 child: Text('Los!',
                   style: TextStyle(
@@ -173,7 +175,9 @@ class _GuessPageState extends State<GuessPage> {
                     fontSize: 16,
                   ),
                 ),
-                onPressed: () { Navigator.pushNamed(context, '/result'); },
+                onPressed: () {
+                  Navigator.pushNamed(context, '/result');
+                },
               ),
             ),
           ]),
