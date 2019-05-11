@@ -9,7 +9,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-
   static String _target = 'Philosophie'; // Default target
   static int _hops = 10; // Default hops
 
@@ -65,61 +64,59 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(primarySwatch: Colors.indigo),
-      home: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(title: Text('Fluttipedia™')),
-        body: Container(
-          padding: EdgeInsets.all(8),
-          child: ListView(
-            children: <Widget>[
-              Card(
-                elevation: 3,
-                child: Padding(
-                  padding: const EdgeInsets.all(14.0),
-                  child: TextFormField(
-                    controller: _targetController,
-                    keyboardType: TextInputType.text,
-                    textInputAction: TextInputAction.next,
-                    focusNode: _targetFocus,
-                    onFieldSubmitted: (term) {
-                      _saveTarget(_targetController.text);
-                      _fieldFocusChange(context, _targetFocus);
-                    },
-                    decoration: InputDecoration(
-                      labelText: 'Zielbegriff',
-                      hintText: 'Gültiger Wikipedia-Begriff',
-                      icon: Icon(Icons.radio_button_checked),
-                      fillColor: Colors.white,
-                    ),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(title: Text('Fluttipedia')),
+      backgroundColor: Color(0xffe6e6e6),
+      body: Container(
+        padding: EdgeInsets.all(8),
+        child: ListView(
+          children: <Widget>[
+            Card(
+              elevation: 3,
+              child: Padding(
+                padding: const EdgeInsets.all(14.0),
+                child: TextFormField(
+                  controller: _targetController,
+                  keyboardType: TextInputType.text,
+                  textInputAction: TextInputAction.next,
+                  focusNode: _targetFocus,
+                  onFieldSubmitted: (term) {
+                    _saveTarget(_targetController.text);
+                    _fieldFocusChange(context, _targetFocus);
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Zielbegriff',
+                    hintText: 'Gültiger Wikipedia-Begriff',
+                    icon: Icon(Icons.radio_button_checked),
+                    fillColor: Colors.white,
                   ),
                 ),
               ),
-              Card(
-                elevation: 3,
-                child: Padding(
-                  padding: const EdgeInsets.all(14.0),
-                  child: TextFormField(
-                    controller: _hopsController,
-                    keyboardType: TextInputType.number,
-                    textInputAction: TextInputAction.next,
-                    focusNode: _hopsFocus,
-                    onFieldSubmitted: (term){
-                      _saveHops(_hopsController.text);
-                      _fieldFocusChange(context, _hopsFocus);
-                    },
-                    decoration: InputDecoration(
-                      labelText: 'Maximale Anzahl Aufrufe',
-                      hintText: '2 - 99',
-                      icon: Icon(Icons.functions),
-                      fillColor: Colors.white,
-                    ),
+            ),
+            Card(
+              elevation: 3,
+              child: Padding(
+                padding: const EdgeInsets.all(14.0),
+                child: TextFormField(
+                  controller: _hopsController,
+                  keyboardType: TextInputType.number,
+                  textInputAction: TextInputAction.next,
+                  focusNode: _hopsFocus,
+                  onFieldSubmitted: (term) {
+                    _saveHops(_hopsController.text);
+                    _fieldFocusChange(context, _hopsFocus);
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Maximale Anzahl Aufrufe',
+                    hintText: '2 - 99',
+                    icon: Icon(Icons.functions),
+                    fillColor: Colors.white,
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
