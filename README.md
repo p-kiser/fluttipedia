@@ -1,18 +1,1 @@
-# fluttipedia
-
-A  Flutter app to play the [philosophy game](https://en.wikipedia.org/wiki/Wikipedia:Getting_to_Philosophy) using the [Skiapoden](https://github.com/skiapoden/) [firstlink](https://skiapoden.herokuapp.com/) microservice.
-
-# Getting Started
-
-To run the project in your favorite android / ios emulator:
-
-```
-# list all emulators
-flutter emulators
-
-# start emulator
-flutter emulators --launch Pixel_2_XL_API_28
-
-# run project
-flutter run
-```
+﻿﻿# FluttipediaEine Flutter-App, um das Wikipedia-Spiel [Getting to Philosophy](https://en.wikipedia.org/wiki/Wikipedia:Getting_to_Philosophy) unter Verwendung des [Skiapoden](https://github.com/skiapoden/) [firstlink](https://skiapoden.herokuapp.com/) Microservices.## Getting StartedDas Projekt kann folgendermassen ausgeführt werden:### 1. Vorhandene Emulatoren auflisten```flutter emulators```### 2. Bestimmten Emulator starten```flutter emulators --launch Pixel_2_XL_API_28```### 3. Projekt starten```flutter run```## Technische AnforderungenDie nachfolgenden Anforderungen wurden in beschriebenen Codestellen umgesetzt.### Verwendung von Flutter (3 Pkt.)TODO Codestelle angeben### Kommunikation über HTTP (1 Pkt.)TODO Codestelle angeben### Implementierung & Verwendung einer eigenen Server-Komponente (1 Pkt.)TODO Codestelle angeben### Lokale Persistenz mittels SharedPreferences (1 Pkt.)TODO Codestelle angeben
