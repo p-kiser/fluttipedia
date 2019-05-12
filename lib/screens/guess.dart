@@ -157,7 +157,6 @@ class _GuessPageState extends State<GuessPage> {
                       setState(() {
                         _currHops = newVal.toInt();
                         userGuess = _currHops;
-                        debugPrint('$_currHops');
                       });
                     },
                   ),

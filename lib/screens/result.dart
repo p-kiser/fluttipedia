@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:fluttipedia/screens/guess.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ResultPage extends StatefulWidget {
   final String startWord;
@@ -13,65 +15,107 @@ class ResultPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _ResultPageState();
+    return _ResultPageState(startWord, guess);
   }
 }
 
 class _ResultPageState extends State<ResultPage> {
   static final String _wikiPrefix = 'https://de.wikipedia.org/wiki/';
-  static final String _url = 'https://skiapoden.herokuapp.com/firstlink';
 
-// TODO: get from GuessPage
-  int _guess = 6;
-  static String _start = 'Zeppelinwurst';
-  List<String> _res = [
-    '$_start',
-  ];
-  List<Text> resultList;
+  // values from shared preferences
+  int _max = 20;
+  String _lang = 'de';
+  String target = 'Philosophie';
+  // values from GuessPage
+  int guess;
+  String startWord;
 
-  // TODO: get from config
-  static int _max = 20;
-  static String _lang = 'de';
+  bool _isTarget = false;
+  bool _isLoop = false;
+  bool _isMax = false;
 
-  /// Get the first link in a wikipedia page via Skiapoden microservice:
-  /// curl -X POST https://skiapoden.herokuapp.com/firstlink -d '{ "language": "en", "article": "Heroku" }'
-  Future<String> getFirstLink(String _word) async {
-    debugPrint('uri: $_url');
-    String s;
-    var _data = '{ "language": "$_lang", "article": "$_word" }';
+  List<String> _res;
+  _ResultPageState(this.startWord, this.guess);
+
+  @override
+  void initState() {
+    _getSharedPrefences();
+    _initResultList();
+  }
+
+  void _initResultList() {
+    _res = ['$startWord'];
+    _isLoop = false;
+    _isTarget = false;
+    _isMax = false;
+  }
+
+  void _getSharedPrefences() async {
+    final prefs = await SharedPreferences.getInstance();
+    this.target = prefs.getString('targetKey');
+    this._max = prefs.getInt('hopsKey');
+    debugPrint('SharedPrefs: max=$_max, target=$target');
+  }
+
+  // Get the first link in a wikipedia page via Skiapoden microservice
+  Future<String> _getFirstLink(String _word) async {
     final response = await http.post(
-        'https://skiapoden.herokuapp.com/firstlink',
-        headers: {
-          HttpHeaders.contentTypeHeader: 'application/x-www-form-urlencoded'
-        },
-        body: _data);
+      'https://skiapoden.herokuapp.com/firstlink',
+      headers: { HttpHeaders.contentTypeHeader: 'application/x-www-form-urlencoded' },
+      body: '{ "language": "$_lang", "article": "$_word" }'
+    );
     if (response.statusCode < 200 || response.statusCode > 400) {
       throw new Exception("Error while fetching data");
     }
-    // get word from response
-    // TODO: using json.decode
-    s = response.body
-        .substring(14 + _wikiPrefix.length, response.body.length - 3);
-    debugPrint('$_word >>> $s');
-    return s;
+    String s = response.body;
+    return s.substring(14 + _wikiPrefix.length, s.length - 3);
   }
 
-  List<Widget> _getResults(List<String> _res) {
-    debugPrint('${_res.length}');
+  List<Widget> _getResultList(List<String> _res) {
     return _res.map((text) => Text(text)).toList();
   }
 
-  double _getPoints(int g, int r) {
-    if (g == r && false) {
-      return 10.0;
-    } else {
-      // TODO: More complex algorithm
-      int difference = r > g ? r - g : g - r;
+  void _getNext() async{
+    // get next word
+    int i = _res.length - 1;
+    String next = await _getFirstLink(_res[i]);
+    
 
-      double difficultyFactor = 1.0 + (r / 10);
-      debugPrint('diff: $difference, factor: $difficultyFactor');
-      return 100 * difficultyFactor - difference;
+    // redraw
+    setState(() {
+      // check if max is reached
+     if (i >= _max) {
+      _isMax = true;
+      debugPrint("Maximum reached!");
     }
+    // check for loop
+    if (_res.contains(next)) {
+      _isLoop = true;
+      debugPrint("Loop!");
+    }
+    _res.add(next);
+    // check if target
+    if (next == target) {
+      _isTarget = true;
+    }     
+    });
+  }
+
+  double _getPoints() {
+    double highscore = 25.0;
+    if (_isLoop || _isMax) { 
+      if (guess == _max) return highscore;
+      else return 0.0;
+    }
+    int g = guess;
+    int r = _res.length-1;
+    int diff = r>g ? r-g : g-r;
+
+    return highscore - diff;
+  }
+
+  _isGameOver() {
+    return _isLoop || _isTarget || _isMax;
   }
 
   @override
@@ -87,73 +131,37 @@ class _ResultPageState extends State<ResultPage> {
               elevation: 3,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    RaisedButton(
-                      elevation: 3,
-                      color: Theme.of(context).accentColor,
-                      child: Text(
-                        'Nächster Begriff',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () async {
-                        _res.add(await getFirstLink(_res[_res.length - 1]));
-                        setState(() {});
-                      },
-                    ),
-                    RaisedButton(
-                        elevation: 3,
-                        color: Theme.of(context).accentColor,
-                        child: Text(
-                          'Neustarten',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _res = [
-                              _start,
-                            ];
-                          });
-                        }),
-                  ],
-                ),
-              ),
-            ),
-            Card(
-              elevation: 3,
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(0, 14, 0, 14),
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    ListTile(
-                      title: Text('Auswertung'),
-                      subtitle: Column(
-                        children: <Widget>[
-                          Text('Geratene Aufrufe: $_guess'),
-                          Text('Effektive Aufrufe: ${_res.length - 1}')
-                        ],
-                      ),
+                    Center(
+                      child: Text(
+                        '$startWord  ➡ $target',
+                          style: TextStyle(
+                            color: Theme.of(context).accentColor,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 20,
+                          ),
+                        ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-            Card(
-              elevation: 3,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  ListTile(
-                    title: Text('Punktzahl'),
-                    subtitle: Column(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        Text('${_getPoints(_guess, _res.length)}'),
+                        Visibility(
+                          visible: !_isGameOver(),
+                          child: RaisedButton(
+                            elevation: 3,
+                            color: Theme.of(context).accentColor,
+                            child: Text(
+                              'Nächster Begriff',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            onPressed: _getNext,
+                          ),
+                        ),                            
                       ],
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             Card(
@@ -166,11 +174,71 @@ class _ResultPageState extends State<ResultPage> {
                     ListTile(
                       title: Text('Aufgerufene Begriffe'),
                       subtitle: Column(
-                        children: _getResults(_res),
+                        children: _getResultList(_res),
                       ),
                     ),
                   ],
                 ),
+              ),
+            ),
+            Card(
+              elevation: 3,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  ListTile(
+                      title: Text('Auswertung'),
+                      subtitle: Column(
+                        children: <Widget>[
+                          Text('Geratene Aufrufe: $guess'),
+                          Text('Effektive Aufrufe: ${_res.length - 1}')
+                        ],
+                      ),
+                    ),
+                    Visibility(
+                      visible: _isMax,
+                      child: Text('Maximale Anzahl Versuche erreicht ($_max)!'),
+                    ),
+                    Visibility(
+                      visible: _isLoop,
+                      child: Text('Endlosschleife :('),
+                    ),
+                    Visibility(
+                      visible: _isTarget,
+                      child: Text('$target erreicht!'),
+                    ),
+
+                  Visibility(
+                    visible: _isGameOver(),
+                    child: ListTile(
+                      title: Text('Punktzahl'),
+                      subtitle: Column(
+                        children: <Widget>[
+                          Text('${_getPoints()}',style: TextStyle(fontSize: 24)),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Visibility(
+                    visible: _isGameOver(),
+                    child: RaisedButton(
+                      elevation: 3,
+                      color: Theme.of(context).accentColor,
+                      child: Text(
+                        'Neues Spiel',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => GuessPage(),
+                          )
+                        );
+                      },
+                  ),
+                ),
+                ],
               ),
             ),
           ],
