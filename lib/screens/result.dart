@@ -110,8 +110,9 @@ class _ResultPageState extends State<ResultPage> {
     int g = guess;
     int r = _res.length-1;
     int diff = r>g ? r-g : g-r;
-
-    return highscore - diff;
+    double fac = (diff*diff) / 2;
+    var score = highscore - fac;
+    return score > 0 ? score : 0.0;
   }
 
   _isGameOver() {

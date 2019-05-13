@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
           // Adds pages to the bottom navigation bar
           TutorialPage(),
           GuessPage(),
-          ResultPage(),
+          //ResultPage(),
           SettingsPage(),
         ],
         onPageChanged: onPageChanged,
@@ -99,17 +99,20 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.white,
                   ),
                 )),
+                /*
             BottomNavigationBarItem(
                 icon: Icon(
                   Icons.insert_drive_file,
                   color: Colors.white,
                 ),
+                
                 title: Text(
                   "Resultate",
                   style: TextStyle(
                     color: Colors.white,
                   ),
                 )),
+                */
             BottomNavigationBarItem(
                 icon: Icon(
                   Icons.settings,

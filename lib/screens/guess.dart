@@ -66,7 +66,24 @@ class _GuessPageState extends State<GuessPage> {
     'Wechselbalg',
     'Gemeine_Hundsrute',
     'Lyoner',
-    'Rotkreuz_ZG'
+    'Rotkreuz_ZG',
+    'Freßgass',
+    'Andouillette',
+    'Flavor_Flav',
+    'Thomas,_die_kleine_Lokomotive',
+    'Münchhausen-Zahl',
+    'Pfannkuchen-Sortierproblem',
+    'Gemeine_Hundsrute',
+    'Bambiraptor',
+    'Deo_volente',
+    'Kinderkreuzzug',
+    'Pampelmuse',
+    'Jerusalemkreuz',
+    'Truthahn-Illusion',
+    'Kunstfurzer',
+    'Coactus_feci',
+    'Coca-Cola',
+    'Absatzwirtschaft'
   ];
 
   // static String _path = 'assets/words_' + _lang + '.txt';
